@@ -583,7 +583,7 @@ void GCodeExport::writeExtrusion(const Point3& p, const Velocity& speed, double 
     writeExtrusion(p.x, p.y, p.z, speed, extrusion_mm3_per_mm, feature, update_extrusion_offset);
 }
 
-void GCodeExport::writeMoveBFB(const int x, const int y, const int z, const Velocity& speed, double extrusion_mm3_per_mm, PrintFeatureType feature)
+void GCodeExport::writeMoveBFB(const coord_t x, const coord_t y, const coord_t z, const Velocity& speed, double extrusion_mm3_per_mm, PrintFeatureType feature)
 {
     if (std::isinf(extrusion_mm3_per_mm))
     {
@@ -613,8 +613,6 @@ void GCodeExport::writeMoveBFB(const int x, const int y, const int z, const Velo
         {
             if (currentSpeed != double(rpm))
             {
-                //fprintf(f, "; %f e-per-mm %d mm-width %d mm/s\n", extrusion_per_mm, lineWidth, speed);
-                //fprintf(f, "M108 S%0.1f\r\n", rpm);
                 *output_stream << "M108 S" << PrecisionedDouble{1, rpm} << new_line;
                 currentSpeed = double(rpm);
             }
@@ -670,7 +668,7 @@ void GCodeExport::writeTravel(const coord_t& x, const coord_t& y, const coord_t&
     writeFXYZE(speed, x, y, z, current_e_value, travel_move_type);
 }
 
-void GCodeExport::writeExtrusion(const int x, const int y, const int z, const Velocity& speed, const double extrusion_mm3_per_mm, const PrintFeatureType& feature, const bool update_extrusion_offset)
+void GCodeExport::writeExtrusion(const coord_t x, const coord_t y, const coord_t z, const Velocity& speed, const double extrusion_mm3_per_mm, const PrintFeatureType& feature, const bool update_extrusion_offset)
 {
     if (currentPosition.x == x && currentPosition.y == y && currentPosition.z == z)
     {
@@ -738,7 +736,7 @@ void GCodeExport::writeExtrusion(const int x, const int y, const int z, const Ve
     writeFXYZE(speed, x, y, z, new_e_value, feature);
 }
 
-void GCodeExport::writeFXYZE(const Velocity& speed, const int x, const int y, const int z, const double e, const PrintFeatureType& feature)
+void GCodeExport::writeFXYZE(const Velocity& speed, const coord_t x, const coord_t y, const coord_t z, const double e, const PrintFeatureType& feature)
 {
     if (currentSpeed != speed)
     {

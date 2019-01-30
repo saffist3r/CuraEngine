@@ -23,7 +23,7 @@ namespace cura
 
 /*!
  * Class for computing and compensating for overlapping (outer) wall lines.
- * The overlapping area is approximated with connected trapzoids.
+ * The overlapping area is approximated with connected trapezoids.
  * All places where the wall is closer than the nozzle width to another piece of wall are recorded.
  * The area of a trapezoid is then the length between two such locations multiplied by the average overlap at the two locations.
  * 

@@ -1,4 +1,4 @@
-//Copyright (c) 2018 Ultimaker B.V.
+//Copyright (c) 2019 Ultimaker B.V.
 //CuraEngine is released under the terms of the AGPLv3 or higher.
 
 #include <cstring>
@@ -496,6 +496,10 @@ void LayerPlan::planPrime()
 
 void LayerPlan::addExtrusionMove(Point p, const GCodePathConfig& config, SpaceFillType space_fill_type, const Ratio& flow, bool spiralize, Ratio speed_factor, double fan_speed)
 {
+    if (flow > 0)
+    {
+        speed_factor /= flow; //Because adjusting the flow has a considerable delay, adjust the speed as well so that the desired flow can be reached much faster.
+    }
     GCodePath* path = getLatestPathWithConfig(config, space_fill_type, flow, spiralize, speed_factor);
     path->points.push_back(p);
     path->setFanSpeed(fan_speed);
